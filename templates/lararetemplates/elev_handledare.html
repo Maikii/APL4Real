@@ -2,6 +2,13 @@
 <div ng-init="getPeople()">
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
         <h1>Koppla elever till handledare:</h1>
+        <hr/>
+        <label class="text-center">Välj klass
+            <select ng-model="selected_klass"
+                    ng-options="klass.id as klass.namn for klass in klasser"
+                    ng-change="getKlass(selected_klass)">
+            </select>
+        </label>
         <form>
             <table class="table table-striped">
                 <tr>
