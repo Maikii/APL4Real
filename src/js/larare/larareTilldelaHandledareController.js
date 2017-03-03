@@ -13,13 +13,17 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
             $scope.klasser = data;
         });
         larareService.getHL(id_token).then(function (data) {
-            $scope.handledare = data;
+            var handledare = [{
+                    id : null,
+                    namn_foretag : "Ingen Handledare"
+            }];
+            handledare = handledare.concat(data);
+            $scope.handledare = handledare;
         });
     }
     $scope.getKlass = function (klass_id) {
         larareService.getElever(id_token, klass_id).then(function (data) {
             $scope.elever = data;
-            console.log(data);
         });
     }
     /*

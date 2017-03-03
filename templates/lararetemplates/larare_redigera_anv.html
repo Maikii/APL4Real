@@ -16,13 +16,13 @@
                     </select>
                     <br/><br/>
                     <label>Namn:</label><br>
-                    <input id="elevnamn" value="{{elevObj.namn}}" placeholder="Namn"/>
+                    <input ng-model="elevObj.namn" placeholder="Namn"/>
                     <br/><br/>
                     <label>Telefonnummer:</label><br>
-                    <input id="elevtfnr" value="{{elevObj.tfnr}}" placeholder="Telefonnummer"/>
+                    <input ng-model="elevObj.tfnr" placeholder="Telefonnummer"/>
                     <br/><br/>
                     <label>Email:</label><br>
-                    <input id="elevemail" value="{{elevObj.email}}" placeholder="Email"/>
+                    <input ng-model="elevObj.email" placeholder="Email"/>
                     <br/><br/>
                     <label for="klass">Klass:</label>
                     <br/>
@@ -32,7 +32,7 @@
                     <br/><br/>
                     <label for="HLinput">Handledare</label>
                     <br/>
-                    <select ng-model="elevHL_id" id="HLinput" 
+                    <select ng-model="elevHL_id"
                             ng-options="HL.id as HL.namn_foretag for HL in HLLista">
                     </select>
                     <br/><br/><br/>
@@ -53,19 +53,19 @@
 
                     <br/><br/>
                     <label>Namn:</label><br>
-                    <input id="HLnamn" value="{{HLObj.namn}}" placeholder="Sven Svensson"/>
+                    <input ng-model="HLObj.namn" placeholder="Sven Svensson"/>
                     <br/><br/>
                     <label>Telefonnummer:</label><br>
-                    <input id="HLtfnr" value="{{HLObj.tfnr}}" placeholder="0123-456789"/>
+                    <input ng-model="HLObj.tfnr" placeholder="0123-456789"/>
                     <br/><br/>
                     <label>Email:</label><br>
-                    <input id="HLemail" value="{{HLObj.email}}" placeholder="sven@svensson.se"/>
+                    <input ng-model="HLObj.email" placeholder="sven@svensson.se"/>
                     <br/><br/>
                     <label>Företag:</label><br>
-                    <input id="HLforetag" value="{{HLObj.foretag}}" placeholder="mittföretag"/>
+                    <input  ng-model="HLObj.foretag" placeholder="mittföretag"/>
                     <br/><br/>
                     <label>Användarnamn:</label><br>
-                    <input id="HLanvnamn" value="{{HLObj.anvnamn}}" placeholder="Svensson"/>
+                    <input ng-model="HLObj.anvnamn" placeholder="Svensson"/>
                     <br/><br/>
                     <label>Lösenord:</label><br>
                     <input id="HLlosen" placeholder="********"/>
