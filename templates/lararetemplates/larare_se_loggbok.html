@@ -24,7 +24,9 @@
             </div>
         </div>
         <div class="seLoggbok1" ng-repeat="logg in loggar">
-            <h3>{{logg.namn}} <span class="small">{{logg.datum}}</span></h3>
+            <h3>{{logg.namn}} <span class="small">{{logg.datum}}
+            <br/>{{logg.godkand == 3 ? "Privat loggbok" : "Godkänd loggbok"}}</h3>
+            <hr/>
             <div id="inlägg">
                 <p>
                     {{logg.innehall}}

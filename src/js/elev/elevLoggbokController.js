@@ -23,27 +23,36 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         var datum = $scope.datum;
         var innehall = $scope.text;
         var ljus = $scope.ljus;
+        var privat = $scope.privat;
         var bild = gbild;
         if (!bild)
             bild = null;
-        console.log(bild);
-        if (datum && innehall && ljus >= 0) {
-            elevLoggbokService.postLogg(datum, innehall, ljus, bild)
-                    .then(function (responses) {
-                        var status = responses[0].status;
-                        if (status == 201) {
-                            globalService.notify("Loggboken har skickats.", "success");
-                        } else if (status == 401) {
-                            globalService.notify("Du verkar inte vara inloggad längre. Försök logga in igen", "danger");
-                        } else {
-                            globalService.notify("Loggboken kommer skickas automatiskt.", "info");
-                        }
-                        gbild = undefined;
-                        $("#loggimg").attr("src", "");
-                        $scope.datum = "";
-                        $scope.text = "";
-                        $scope.ljus = "";
-                    });
+        if (datum && innehall && ljus >= 0 && innehall.length <= 1024) {
+            var targetUrl = "/elev/logg";
+            var data = {
+                "datum": datum,
+                "innehall": innehall,
+                "ljus": ljus,
+                "imgUrl": bild,
+                "privat": privat
+            };
+            globalService.skickaData(targetUrl, data).then(function (responses) {
+                var status = responses[0].status;
+                if (status == 201) {
+                    globalService.notify("Loggboken har skickats.", "success");
+                } else if (status == 401) {
+                    globalService.notify("Du verkar inte vara inloggad längre. Försök logga in igen", "danger");
+                } else {
+                    globalService.notify("Loggboken kommer skickas automatiskt.", "info");
+                }
+                gbild = undefined;
+                $("#loggimg").attr("src", "");
+                $scope.datum = "";
+                $scope.text = "";
+                $scope.ljus = "";
+            });
+        } else if (innehall.length > 1024) {
+            globalService.notify("Loggboken är för lång. (Över 1024 tecken)", "danger");
         } else {
             globalService.notify("Du måste fylla i datum, innehåll och upplevelse av dagen.", "danger");
         }
