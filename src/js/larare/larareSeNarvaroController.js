@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroService, larareService, globalService) {
+    $scope.larareService = larareService;
     $scope.years = [];
     $scope.start = 0;
     $scope.currentMonth = new Date().getMonth();
@@ -16,6 +17,7 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
         });
     }
     $scope.getElever = function (klass_id) {
+        larareService.setSetting('lastKlass', klass_id);
         larareSeNarvaroService.getGodkandNarvaro(id_token, klass_id).then(function (data) {
             var alla = [];
             alla.push({elev_id: -1, namn: "Alla"});
@@ -70,21 +72,11 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
             return -1;
         }
     };
-    $scope.getVeckor = function (elev_id, year, month) {
-        if (elev_id > -1) {
-            var elev = $scope.getElev(elev_id);
-            var sista_dag = new Date(elev.narvaro[elev.narvaro.length - 1].datum * 1000);
-            if (!month) {
-                month = sista_dag.getMonth();
-            }
-            if (!year) {
-                year = sista_dag.getFullYear();
-            }
-        }
-        if (!(elev_id > -1) && !year) {
+    $scope.getVeckor = function (year, month) {
+        if (!year) {
             year = $scope.currentYear;
         }
-        if (!(elev_id > -1) && !month) {
+        if (!month) {
             month = $scope.currentMonth;
         }
         //skapa array med datumen i månaden
@@ -115,7 +107,11 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
         $scope.veckor = [];
         for (i = 0, j = narvaro_array.length; i < j; i += 7) {
             var temparray = narvaro_array.slice(i, i + 7);
-            $scope.veckor.push(temparray);
+            var vecka = {
+                veckonummer : temparray[0].datum.getWeekNumber(),
+                dagar: temparray
+            };
+            $scope.veckor.push(vecka);
         }
     };
 });
@@ -136,6 +132,12 @@ Date.prototype.removeDays = function (days) {
     var dat = new Date(this.valueOf());
     dat.setDate(dat.getDate() - days);
     return dat;
+};
+Date.prototype.getWeekNumber = function(){
+    var d = new Date(+this);
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate()+4-(d.getDay()||7));
+    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
 };
 function getDates(startDate, stopDate) {
     var dateArray = new Array();

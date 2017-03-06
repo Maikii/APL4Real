@@ -5,8 +5,9 @@
         <hr/>
         <label class="text-center">Välj klass
             <select ng-model="selected_klass"
+                    ng-init="selected_klass = larareService.getSetting('lastKlass'); getElever(selected_klass)"
                     ng-options="klass.id as klass.namn for klass in klasser"
-                    ng-change="getKlass(selected_klass)">
+                    ng-change="getElever(selected_klass)">
             </select>
         </label>
         <form>

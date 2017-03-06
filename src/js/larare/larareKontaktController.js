@@ -7,10 +7,8 @@ module.controller("larareKontaktCtrl", function ($scope, larareKontaktService, g
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
         var id_token = anvandare.id_token;
-        var promiseLoggar = larareKontaktService.getKontakt(id_token);
-        promiseLoggar.then(function (data) {
+        larareKontaktService.getKontakt(id_token).then(function (data) {
             $scope.kontaktUppgifter = data;
-            console.log(data);
         });
     }
 });

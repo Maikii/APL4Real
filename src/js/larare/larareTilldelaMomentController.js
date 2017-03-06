@@ -5,6 +5,7 @@
  */
 
 module.controller("larareTilldelaMomentCtrl", function ($scope, larareService, larareMomentService, globalService) {
+    $scope.larareService = larareService;
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
@@ -14,6 +15,7 @@ module.controller("larareTilldelaMomentCtrl", function ($scope, larareService, l
         });
     }
     $scope.getElever = function (klass_id) {
+        larareService.setSetting('lastKlass', klass_id);
         larareService.getElever(id_token, klass_id).then(function (data) {
             $scope.elever = data;
         });

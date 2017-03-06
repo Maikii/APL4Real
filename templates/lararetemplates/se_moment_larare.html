@@ -3,29 +3,21 @@
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
         <h1 class="text-center">Se Moment</h1>
         <hr>
-        <div class="col-sm-3 col-sm-offset-3">
-            <div>
-                <h3>Välj klass:</h3>
-                <select ng-model="sokKlass" ng-change="updateraElevLista()"> 
-                    <option ng-repeat="klass in klasser" value="{{klass.id}}">
-                        {{klass.namn}}
-                    </option> 
-                </select>
-            </div>
-        </div>
-        <div class="col-sm-3"> 
-            <div>
-                <h3>Välj elev:</h3>
-                <select ng-model="sokElev"  ng-change="updateraElevsMoment()"> 
-                    <option ng-repeat="elev in eleverna" value="{{elev.id}}">
-                        {{elev.namn}}
-                    </option> 
-                </select>
-            </div>
-        </div>
-
-        <br><br><br>    <br><br><br>
-
+        <label class="text-center">Välj klass
+            <select ng-model="selected_klass"
+                    ng-init="selected_klass = larareService.getSetting('lastKlass'); getElever(selected_klass)"
+                    ng-options="klass.id as klass.namn for klass in klasser"
+                    ng-change="getElever(selected_klass)">
+            </select>
+        </label>
+        <label class="text-center">Välj elev:
+            <select ng-model="selected_elev"
+                    ng-init="selected_elev = -1"
+                    ng-options="elev.id as elev.namn for elev in elever"
+                    ng-change="getMoment(selected_elev)">
+            </select>
+        </label>
+        <br/>
         <table class='table table-bordered table-striped'>
             <tr>
                 <th>Innehåll</th>

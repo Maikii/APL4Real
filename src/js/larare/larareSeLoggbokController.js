@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 module.controller("larareSeLoggCtrl", function ($scope, larareSeLoggService, larareService, globalService) {
+    $scope.larareService = larareService;
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
@@ -14,14 +15,13 @@ module.controller("larareSeLoggCtrl", function ($scope, larareSeLoggService, lar
         });
     }
     $scope.getElever = function (klass_id) {
-        var promiseElever = larareService.getElever(id_token, klass_id);
-        promiseElever.then(function (data){
+        larareService.setSetting('lastKlass', klass_id);
+        larareService.getElever(id_token, klass_id).then(function (data){
             $scope.elever = data;
         });
     };
     $scope.getLogg = function (selected_elev) {
-        var promiseLoggar = larareSeLoggService.getLoggar(id_token, selected_elev);
-        promiseLoggar.then(function (data) {
+        larareSeLoggService.getLoggar(id_token, selected_elev).then(function (data) {
             console.log(data);
             $scope.loggar = data;
         });

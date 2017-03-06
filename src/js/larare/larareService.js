@@ -103,4 +103,24 @@ module.service("larareService", function ($q) {
         });
         return deferred.promise;
     };
+    
+    this.larareSettings;
+    if (!this.larareSettings) {
+        if(!localStorage.larareSettings) {
+            this.larareSettings = {
+                lastKlass : -1,
+                lastElev : -1
+            };
+            localStorage.larareSettings = JSON.stringify(this.larareSettings);
+        } else {
+            this.larareSettings = JSON.parse(localStorage.larareSettings);
+        }
+    }
+    this.getSetting = function(setting) {
+        return this.larareSettings[setting];
+    };
+    this.setSetting = function(setting, value) {
+        this.larareSettings[setting] = value;
+        localStorage.larareSettings = JSON.stringify(this.larareSettings);
+    };
 });

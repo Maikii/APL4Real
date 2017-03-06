@@ -45,9 +45,12 @@
                 <li ui-sref-active="active"><a ui-sref="larare_kontakt">Kontakt</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><div ng-controller="larareCtrl">
+                <li ui-sref-active="active"><a ui-sref="larare_settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+                <li>
+                    <div ng-controller="larareCtrl">
                         <a class=" logut btn btn-primary" ng-click="logout()">Logga ut</a>
-                    </div></li>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

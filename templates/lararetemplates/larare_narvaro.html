@@ -6,6 +6,7 @@
         <hr>
         <label class="text-center">Välj klass
             <select ng-model="selected_klass"
+                    ng-init="selected_klass = larareService.getSetting('lastKlass'); getElever(selected_klass)"
                     ng-options="klass.id as klass.namn for klass in klasser"
                     ng-change="getElever(selected_klass)">
             </select>
@@ -22,13 +23,13 @@
                 <select ng-init="selected_year = currentYear"
                         ng-model="selected_year"
                         ng-options="year as year for year in years"
-                        ng-change="getVeckor(selected_elev, selected_year, selected_month)">
+                        ng-change="getVeckor(selected_year, selected_month)">
                 </select>
             </label>
             <label class="text-center">Månad:
                 <select ng-init="selected_month = '' + currentMonth"
                         ng-model="selected_month"
-                        ng-change="getVeckor(selected_elev, selected_year, selected_month)">
+                        ng-change="getVeckor(selected_year, selected_month)">
                     <option value = "0">Januari</option>
                     <option value = "1">Februari</option>
                     <option value = "2">Mars</option>
@@ -50,6 +51,7 @@
                 <div ng-if='elev.elev_id !== -1'>
                     <h4 class="text-center">{{elev.namn}}</h4>
                     <div class="narvaro_head">
+                        <div class="narvaro_dag">Vecka</div>
                         <div class="narvaro_dag">Mån</div>
                         <div class="narvaro_dag">Tis</div>
                         <div class="narvaro_dag">Ons</div>
@@ -59,7 +61,8 @@
                         <div class="narvaro_dag">Sön</div>
                     </div>
                     <div class="narvaro_vecka" ng-repeat="vecka in veckor">
-                        <div ng-repeat="narvaro in vecka" class="ng-class: parseClass(getLjus(elev, narvaro.datum),getGodkant(elev, narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
+                        <div class='narvaro_dag'>{{vecka.veckonummer}}</div>
+                        <div ng-repeat="narvaro in vecka.dagar" class="ng-class: parseClass(getLjus(elev, narvaro.datum),getGodkant(elev, narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
                     </div>
                 </div>
             </div>
@@ -67,6 +70,7 @@
         <div ng-if="selected_elev > -1">
             <h2 ng_show="selected_elev > -1" class="text-center">{{getElev(selected_elev).namn}}</h2>
             <div class="narvaro_head">
+                <div class="narvaro_dag">Vecka</div>
                 <div class="narvaro_dag">Mån</div>
                 <div class="narvaro_dag">Tis</div>
                 <div class="narvaro_dag">Ons</div>
@@ -76,7 +80,8 @@
                 <div class="narvaro_dag">Sön</div>
             </div>
             <div class="narvaro_vecka" ng-repeat="vecka in veckor">
-                <div ng-repeat="narvaro in vecka" class="ng-class: parseClass(getLjus(getElev(selected_elev), narvaro.datum),getGodkant(getElev(selected_elev), narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
+                <div class='narvaro_dag'>{{vecka.veckonummer}}</div>
+                <div ng-repeat="narvaro in vecka.dagar" class="ng-class: parseClass(getLjus(getElev(selected_elev), narvaro.datum),getGodkant(getElev(selected_elev), narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
             </div>
         </div>
         <div class="clear"></div>

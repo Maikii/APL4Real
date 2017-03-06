@@ -34,6 +34,10 @@ module.config(function ($urlRouterProvider, $stateProvider) {
         url: "/larare",
         templateUrl: "templates/larare.html",
         controller: "larareOversiktCtrl"
+    }).state("larare_settings", {
+        url: "/larare_settings",
+        templateUrl: "templates/lararetemplates/larare_settings.html",
+        controller: "larareSettingsCtrl"
     }).state("handledare", {
         url: "/handledare",
         templateUrl: "templates/handledare.html",

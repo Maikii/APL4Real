@@ -1,0 +1,15 @@
+<header ng-include="'templates/headers/lararehead.html'"></header>
+<div>
+    <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
+        <h1 class="text-center">Lärare Inställningar</h1>
+        <hr>
+        <label class="text-center">Byt Klass
+            <select ng-model="selected_klass"
+                    ng-options="klass.id as klass.namn for klass in klasser"
+                    ng-change="changeKlass(selected_klass)">
+            </select>
+        </label>
+    </div>
+</div> 
+
+<footer ng-include="'templates/footer.html'"></footer>

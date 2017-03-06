@@ -48,6 +48,7 @@ module.exports = function (grunt) {
                         'src/js/larare/larareRegHandledareController.js',
                         'src/js/larare/larareSeLoggbokController.js',
                         'src/js/larare/larareSeNarvaroController.js',
+                        'src/js/larare/larareSettingsController.js',
                         'src/js/larare/larareTilldelaHandledareController.js',
                         'src/js/larare/larareTilldelaMomentController.js',
                         /* ELEV */

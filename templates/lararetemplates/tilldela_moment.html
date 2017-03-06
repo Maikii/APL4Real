@@ -6,6 +6,7 @@
         <hr>
         <label class="text-center col-lg-offset-6">Välj klass
             <select ng-model="selected_klass"
+                    ng-init="selected_klass = larareService.getSetting('lastKlass'); getElever(selected_klass)"
                     ng-options="klass.id as klass.namn for klass in klasser"
                     ng-change="getElever(selected_klass)">
             </select>
@@ -18,7 +19,7 @@
                     <tr>
                         <th>Innehåll</th>
                         <th>
-                            <!--                            <input type="checkbox" ng-model="check_moment"/>-->
+                            <!--<input type="checkbox" ng-model="check_moment"/>-->
                         </th>
                     </tr>
                 </thead>

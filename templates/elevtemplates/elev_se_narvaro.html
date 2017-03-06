@@ -34,6 +34,7 @@
             </div>
             <div>
                 <div class="narvaro_head">
+                    <div class="narvaro_dag">Vecka</div>
                     <div class="narvaro_dag">Mån</div>
                     <div class="narvaro_dag">Tis</div>
                     <div class="narvaro_dag">Ons</div>
@@ -43,7 +44,8 @@
                     <div class="narvaro_dag">Sön</div>
                 </div>
                 <div class="narvaro_vecka" ng-repeat="vecka in veckor">
-                    <div ng-repeat="narvaro in vecka" class="ng-class: parseClass(getLjus(narvaro.datum),getGodkant(narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
+                <div class='narvaro_dag'>{{vecka.veckonummer}}</div>
+                    <div ng-repeat="narvaro in vecka.dagar" class="ng-class: parseClass(getLjus(narvaro.datum),getGodkant(narvaro.datum)) + ' ' + todayClass(narvaro.datum); narvaro_dag">{{narvaro.datum.getDate()}}</div>
                 </div>
             </div>
         </div>

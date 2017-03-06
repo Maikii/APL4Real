@@ -6,6 +6,7 @@
 
 
 module.controller("larareMomentCtrl", function ($scope, larareMomentService, globalService, larareService) {
+    $scope.larareService = larareService;
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
@@ -22,25 +23,21 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
     $scope.getMomentLarare = function () {
         larareMomentService.getMomentLärare(id_token).then(function (data) {
             $scope.lararMoment = data;
-            console.log("LärareSeMoment");
-            console.log(data);
         });
     };
 
     // hämta elever använder ng-change för att uppdatera
-    $scope.updateraElevLista = function () {
-        larareService.getElever(id_token, $scope.sokKlass).then(function (data) {
-            $scope.eleverna = data;
-            console.log(data);
+    $scope.getElever = function (klass_id) {
+        larareService.setSetting('lastKlass', klass_id);
+        larareService.getElever(id_token, klass_id).then(function (data) {
+            $scope.elever = data;
         });
     };
 
     //hämta moment använder ng-change för att uppdatera
-    $scope.updateraElevsMoment = function () {
-        var elev_id = parseInt($scope.sokElev);
+    $scope.getMoment = function (elev_id) {
         larareMomentService.getMoment(id_token, elev_id).then(function (data) {
             $scope.moment = data;
-            console.log(data);
         });
     };
 

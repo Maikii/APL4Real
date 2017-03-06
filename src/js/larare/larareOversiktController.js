@@ -1,4 +1,5 @@
 module.controller("larareOversiktCtrl", function ($scope, larareService, larareOversiktService, globalService) {
+    $scope.larareService = larareService;
     $scope.labels = ["Bra", "Sådär", "Dåligt"];
     $scope.colours = ["#89ba17", "#f0de00", "#dc002e"];
     $scope.charts = [];
@@ -13,6 +14,7 @@ module.controller("larareOversiktCtrl", function ($scope, larareService, larareO
         });
     }
     $scope.displayCharts = function () {
+        $scope.charts = [];
         $.each($scope.chart_data, function (index, value) {
             var ctx = $('#' + value.id).get(0).getContext("2d");
             $scope.charts.push(new Chart(ctx).Pie(value.data));
@@ -20,7 +22,10 @@ module.controller("larareOversiktCtrl", function ($scope, larareService, larareO
         });
     };
     $scope.getOmdome = function (klass_id) {
+        larareService.setSetting('lastKlass', klass_id);
         larareOversiktService.getOmdome(id_token, klass_id).then(function (data) {
+            $("#chartContainer").empty();
+            $scope.chart_data = [];
             for (var i = 0; i < data.length; i++) {
                 $scope.chart_data.push({
                     id: "chart_" + i,

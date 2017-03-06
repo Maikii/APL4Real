@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, larareService, globalService) {
+    $scope.larareService = larareService;
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
@@ -21,7 +22,8 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
             $scope.handledare = handledare;
         });
     }
-    $scope.getKlass = function (klass_id) {
+    $scope.getElever = function (klass_id) {
+        larareService.setSetting('lastKlass', klass_id);
         larareService.getElever(id_token, klass_id).then(function (data) {
             $scope.elever = data;
         });
