@@ -68,7 +68,13 @@
             </div>
         </div>
         <div ng-if="selected_elev > -1">
-            <h2 ng_show="selected_elev > -1" class="text-center">{{getElev(selected_elev).namn}}</h2>
+            <h2 class="text-center">{{getElev(selected_elev).namn}}</h2>
+            <p>{{"Total rapporterad närvaro: " + getElev(selected_elev).total.sum}}
+                <br/>
+                {{getElev(selected_elev).total.gron + " " + getGrammar(getElev(selected_elev).total.gron, "Gröna", "Grön", "Gröna")+", "}}
+                {{getElev(selected_elev).total.gul + " " + getGrammar(getElev(selected_elev).total.gul, "Gula", "Gul", "Gula")+", "}}
+                {{getElev(selected_elev).total.rod + " " + getGrammar(getElev(selected_elev).total.rod, "Röda", "Röd", "Röda")+", "}}
+                {{getElev(selected_elev).total.gra + " " + getGrammar(getElev(selected_elev).total.gra, "Gråa", "Grå", "Gråa")}}</p>
             <div class="narvaro_head">
                 <div class="narvaro_dag">Vecka</div>
                 <div class="narvaro_dag">Mån</div>

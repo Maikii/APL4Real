@@ -19,6 +19,27 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
     $scope.getElever = function (klass_id) {
         larareService.setSetting('lastKlass', klass_id);
         larareSeNarvaroService.getGodkandNarvaro(id_token, klass_id).then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                data[i].total = {
+                    sum: data[i].narvaro.length,
+                    gra: 0,
+                    rod: 0,
+                    gul: 0,
+                    gron: 0
+                };
+                for (var j = 0; j < data[i].narvaro.length; j++) {
+                    if (data[i].narvaro[j].godkant) {
+                        if (data[i].narvaro[j].trafikljus === 0)
+                            data[i].total.rod++;
+                        else if (data[i].narvaro[j].trafikljus === 1)
+                            data[i].total.gul++;
+                        else if (data[i].narvaro[j].trafikljus === 2)
+                            data[i].total.gron = data[i].total.gron+1;
+                    } else {
+                        data[i].total.gra++;
+                    }
+                }
+            }
             var alla = [];
             alla.push({elev_id: -1, namn: "Alla"});
             $scope.elever = alla.concat(data);
@@ -54,6 +75,9 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
     $scope.getElev = function (elev_id) {
         return $scope.elever[arrayObjectIndexOf($scope.elever, elev_id, "elev_id")];
     };
+    $scope.getGrammar = function (value, onNone, onOne, onMany) {
+        return value > 0 ? value > 1 ? onMany : onOne : onNone;
+    };
     $scope.getLjus = function (elev, datum) {
         var index = arrayObjectIndexOf(elev.narvaro, datum.getTime() / 1000, "datum");
         if (index !== -1)
@@ -64,6 +88,21 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
         }
     };
     $scope.getGodkant = function (elev, datum) {
+        var index = arrayObjectIndexOf(elev.narvaro, datum.getTime() / 1000, "datum");
+        if (index !== -1)
+        {
+            return elev.narvaro[index].godkant;
+        } else {
+            return -1;
+        }
+    };
+    $scope.getTotalGodkant = function (elev) {
+        var total = {
+
+        }
+        for (var i = 0; i < elev.narvaro.length; i++) {
+
+        }
         var index = arrayObjectIndexOf(elev.narvaro, datum.getTime() / 1000, "datum");
         if (index !== -1)
         {
@@ -108,7 +147,7 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
         for (i = 0, j = narvaro_array.length; i < j; i += 7) {
             var temparray = narvaro_array.slice(i, i + 7);
             var vecka = {
-                veckonummer : temparray[0].datum.getWeekNumber(),
+                veckonummer: temparray[0].datum.getWeekNumber(),
                 dagar: temparray
             };
             $scope.veckor.push(vecka);
@@ -133,11 +172,11 @@ Date.prototype.removeDays = function (days) {
     dat.setDate(dat.getDate() - days);
     return dat;
 };
-Date.prototype.getWeekNumber = function(){
+Date.prototype.getWeekNumber = function () {
     var d = new Date(+this);
-    d.setHours(0,0,0,0);
-    d.setDate(d.getDate()+4-(d.getDay()||7));
-    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
 };
 function getDates(startDate, stopDate) {
     var dateArray = new Array();

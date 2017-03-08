@@ -1,7 +1,7 @@
 <header ng-include="'templates/headers/lararehead.html'"></header>
 <div>
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
-        <h1 class="text-center">Lärare Inställningar</h1>
+        <h1 class="text-center">Inställningar</h1>
         <hr>
         <label class="text-center">Byt Klass
             <select ng-model="selected_klass"
@@ -9,6 +9,16 @@
                     ng-change="changeKlass(selected_klass)">
             </select>
         </label>
+        <hr>
+        <h1 class="text-center">Avancerat</h1>
+        <p>Oskickat</p>
+        <div ng-repeat="item in oskickat">
+            <p>URL: {{item.url}}</p>
+            <p>DATA: {{item.data}}</p>
+            <a class="btn btn-default" ng-click="raderaOskickat(item)">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+        </div>
     </div>
 </div> 
 

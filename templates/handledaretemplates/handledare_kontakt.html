@@ -1,21 +1,21 @@
 <header ng-include="'templates/headers/handledarehead.html'"></header>
 <div>
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
-        <h1 class="text-center">Kontakt</h1>
+        <h1 class="text-center">{{getText("kontakt")}}</h1>
         <hr>
         <table class="table table-striped table-responsive" id='kontakt'>
             <thead>
                 <tr>
-                    <th>Namn</th>
-                    <th>Mail</th>
-                    <th>Telefonnummer</th>
+                    <th>{{getText("namn")}}</th>
+                    <th>{{getText("mail")}}</th>
+                    <th>{{getText("telefonnummer")}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="kontakt in kontakter">
-                    <td data-th='Namn'>{{kontakt.namn}}</td>
-                    <td data-th='Mail'>{{kontakt.mail}}</td>
-                    <td data-th='Tfnr.'>{{kontakt.tfnr}}</td>
+                    <td data-th='{{getText("namn")}}'>{{kontakt.namn}}</td>
+                    <td data-th='{{getText("mail")}}'>{{kontakt.mail}}</td>
+                    <td data-th='{{getText("tfnr")}}'>{{kontakt.tfnr}}</td>
                 </tr>
             </tbody>
         </table>

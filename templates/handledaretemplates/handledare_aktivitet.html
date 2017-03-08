@@ -1,7 +1,6 @@
-<header ng-include="'templates/headers/handledarehead.html'"></header>
 <div ng-init="getHandledareAktiviteter()" >    
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
-        <h1 class="text-center">Aktiviteter <span class="badge">{{aktiviteter.length}}</span></h1>
+        <h1 class="text-center">{{getText("aktivitet")}} <span class="badge">{{aktiviteter.length}}</span></h1>
         <div class="seLoggbok" ng-repeat="aktivitet in aktiviteter">
 
             <h3 ng-click="show(this)">
@@ -10,25 +9,25 @@
             <div class="aktivitet" id="{{this.$id}}">
                 <!-- Närvaro -->
                 <div ng-if="aktivitet.typ === 0">
-                    <p>Din elev rapporterade att hen var <strong>{{parseLjus(aktivitet.trafikljus)}}</strong> denna dag.</p>
+                    <p>{{getText("narvaro1")}} <strong>{{parseLjus(aktivitet.trafikljus)}}</strong> {{getText("narvaro3")}}.</p>
                 </div>
                 <!-- Loggbok -->
                 <div ng-if="aktivitet.typ === 1">
-                    <p>Din elev har skickat in följande loggbok:</p>
+                    <p>{{getText("loggbok")}}:</p>
                     <br/>
                     <p>{{aktivitet.innehall}}</p>
                     <img ng-if='aktivitet.bild !== null' ng-src="{{getBildUrl(aktivitet.bild, 300)}}" alt="Uppladdad bild" />
                 </div>
                 <!-- Moment -->
                 <div ng-if="aktivitet.typ === 2">
-                    <p>Din elev tycker att de har avklarat följande moment:</p>
+                    <p>{{getText("moment")}}:</p>
                     <br/>
                     <p>{{aktivitet.innehall}}</p>
                 </div>
 
-                <p>Stämmer detta?</p>
-                <a class="btn btn-primary" ng-click="godkann(aktiviteter.indexOf(aktivitet))">Ja</a>
-                <a class="btn btn-danger" ng-click="neka(aktiviteter.indexOf(aktivitet))">Nej</a>
+                <p>{{getText("confirm")}}?</p>
+                <a class="btn btn-primary" ng-click="godkann(aktiviteter.indexOf(aktivitet))">{{getText("yes")}}</a>
+                <a class="btn btn-danger" ng-click="neka(aktiviteter.indexOf(aktivitet))">{{getText("no")}}</a>
             </div>
         </div>
     </div>

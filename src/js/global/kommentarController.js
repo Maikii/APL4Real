@@ -5,6 +5,7 @@
  */
 module.controller("kommentarCtrl", function ($scope, globalService) {
     var url = "";
+    $scope.nyaKommentarer = [];
     $scope.postKommentar = function (logg_id) {
         var kommentar = document.getElementById(logg_id).value.trim();
         if (kommentar !== "")
@@ -21,6 +22,13 @@ module.controller("kommentarCtrl", function ($scope, globalService) {
             globalService.skickaData(url, data).then(function (responses) {
                 if (responses[0].status < 200 || responses[0].status > 299) {
                     globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
+                } else {
+                    globalService.notify("Kommentaren har skickats.", "success");
+                    $scope.nyaKommentarer.push({
+                        namn : "Du",
+                        innehall : kommentar,
+                        datum : datum
+                    });
                 }
             });
             document.getElementById(logg_id).value = "";

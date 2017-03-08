@@ -5,22 +5,25 @@
  */
 
 
-module.controller("handledareAktivitetCtrl", function ($scope, $window, handledareAktivitetService, globalService) {
+module.controller("handledareAktivitetCtrl", function ($scope, $window, handledareAktivitetService, globalService, handledareService) {
+    $scope.getText = function (text) {
+        return handledareService.getText(text);
+    };
     $scope.parseLjus = function (i) {
         if (i === 0)
-            return "frånvarande";
+            return $scope.getText("narvaro2a");
         else if (i === 1)
-            return "delvis närvarande";
+            return $scope.getText("narvaro2b");
         else if (i === 2)
-            return "närvarande hela";
+            return $scope.getText("narvaro2c");
     };
     $scope.parseRubrik = function (i) {
         if (i === 0)
-            return "Närvaro";
+            return $scope.getText("narvaroTitle");
         else if (i === 1)
-            return "Loggbok";
+            return $scope.getText("loggbokTitle");
         else if (i === 2)
-            return "Moment";
+            return $scope.getText("momentTitle");
     };
     $scope.getBildUrl = function (bild, storlek) {
         //tar bort citattecknen som kommer vem fan vet var ifrån

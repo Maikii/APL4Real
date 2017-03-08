@@ -7,6 +7,7 @@
 
 module.controller("larareMomentCtrl", function ($scope, larareMomentService, globalService, larareService) {
     $scope.larareService = larareService;
+    $scope.nyaMoment = [];
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
@@ -42,7 +43,6 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
     };
 
     $scope.parseMoment = function (p) {
-        console.log(p);
         if (p === 0) {
             return "Ej avklarad";
         } else if (p === 1) {
@@ -64,6 +64,7 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
                     globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
                 } else {
                     globalService.notify("Momentet är sparat.", "success");
+                    $scope.nyaMoment.push({innehall:innehall});
                 }
             });
             document.getElementById("momentInnehall").value = "";
@@ -86,8 +87,18 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
                 globalService.notify("Lyckades inte ta bort momentet.", "danger");
             else {
                 globalService.notify("Momentet har tagits bort från eleven.", "success");
-                location.reload();//TODO: Ladda inte om hela sidan, ta bara bort momentet från listan
+                var index = arrayObjectIndexOf($scope.moment, moment_id, "moment");
+                if(index > -1)
+                    $scope.moment.splice(index, 1);
             }
         });
     };
 });
+
+function arrayObjectIndexOf(myArray, searchTerm, property) {
+    for (var i = 0, len = myArray.length; i < len; i++) {
+        if (myArray[i][property] === searchTerm)
+            return i;
+    }
+    return -1;
+}

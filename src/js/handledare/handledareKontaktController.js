@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-module.controller("handledareKontaktCtrl", function ($scope, handledareKontaktService, globalService) {
+module.controller("handledareKontaktCtrl", function ($scope, handledareKontaktService, globalService, handledareService) {
+    $scope.getText = function (text) {
+        return handledareService.getText(text);
+    };
     if (globalService.isLoggedIn(false)) {
         var anvandare = JSON.parse(localStorage.anvandare);
         var basic_auth = anvandare.basic_auth;

@@ -14,7 +14,8 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
             return "Väntande";
         else if (status === 2)
             return "Avklarad!";
-
+        else if (status === 3)
+            return "Nekad";
     };
 
 
@@ -28,6 +29,9 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
                 globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
             } else {
                 globalService.notify("Momentet har skickats.", "success");
+                var index = arrayObjectIndexOf($scope.moment, id, "moment_id");
+                if(index > -1)
+                    $scope.moment[index].godkand = 1;
             }
         });
     };
@@ -41,3 +45,11 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
     };
 
 });
+
+function arrayObjectIndexOf(myArray, searchTerm, property) {
+    for (var i = 0, len = myArray.length; i < len; i++) {
+        if (myArray[i][property] === searchTerm)
+            return i;
+    }
+    return -1;
+}

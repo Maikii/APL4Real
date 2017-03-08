@@ -73,7 +73,8 @@ module.exports = function (grunt) {
                         'src/js/handledare/handledareController.js',
                         'src/js/handledare/handledareAktivitetController.js',
                         'src/js/handledare/handledareKontaktController.js',
-                        'src/js/handledare/handledareMomentController.js'
+                        'src/js/handledare/handledareMomentController.js',
+                        'src/js/handledare/handledareService.js'
                     ]
                 }
             }
