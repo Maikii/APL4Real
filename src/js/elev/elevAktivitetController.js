@@ -34,7 +34,7 @@ module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetS
         if (globalService.isLoggedIn(true)) {
             var id_token = JSON.parse(localStorage.anvandare).id_token;
             elevAktivitetService.getNekadeAktiviteter(id_token).then(function (data) {
-                $scope.aktiviteter = data;
+                $scope.aktiviteter = data[0];
                 console.log(data);
             });
         }

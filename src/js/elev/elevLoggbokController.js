@@ -22,8 +22,8 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         //Göra om till databasens Date
         var datum = $scope.datum;
         var innehall = $scope.text;
-        var ljus = $scope.ljus;
-        var privat = $scope.privat;
+        var ljus = parseInt($scope.ljus);
+        var privat = $scope.privat || false;
         var bild = gbild;
         if (!bild)
             bild = null;

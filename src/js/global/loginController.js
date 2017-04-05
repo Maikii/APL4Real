@@ -64,7 +64,7 @@ module.controller("loginCtrl", function ($location, $window, $scope, loginServic
                     behorighet: 2
                 };
                 localStorage.anvandare = JSON.stringify(anvandare);
-                $window.location.href = "../index.html#/handledare";
+                window.location.href = "../index.html#/handledare";
             } else if (status === 401) {
                 globalService.notify("Fel användarnamn eller lösenord.", "danger");
             } else {

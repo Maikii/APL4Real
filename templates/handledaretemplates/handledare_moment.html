@@ -3,7 +3,13 @@
     <div class="well text-center col-sm-12 col-md-10 col-md-offset-1">
         <h1 class="text-center">{{getText("moments")}}</h1>
         <hr>
-
+        <label ng-if="elever.length > 1" class="text-center">{{getText("elevchoice")}}
+            <select ng-model="selected_elev"
+                    ng-options="elev.id as elev.namn for elev in elever"
+                    ng-change="showMoment(selected_elev)">
+            </select>
+        </label>
+        <hr>
         <table class='table table-bordered table-striped'>
             <tr>
                 <th>{{getText("innehall")}}</th>

@@ -9,6 +9,9 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
     $scope.getText = function (text) {
         return handledareService.getText(text);
     };
+    $scope.getElevName = function (id) {
+        return handledareService.getElevName(id);
+    };
     $scope.parseLjus = function (i) {
         if (i === 0)
             return $scope.getText("narvaro2a");
@@ -36,9 +39,15 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
     $scope.getHandledareAktiviteter = function () {
         if (globalService.isLoggedIn(false)) {
             var basic_auth = JSON.parse(localStorage.anvandare).basic_auth;
-            handledareAktivitetService.getHandledareAktiviteter(basic_auth).then(function (data) {
-                $scope.aktiviteter = data;
-                console.log(data);
+            handledareService.getElever(basic_auth).then(function (elever) {
+                handledareAktivitetService.getHandledareAktiviteter(basic_auth).then(function (data) {
+                    for (var i = 0; i < data.length; i++)//loopa grupper
+                        for (var j = 0; j < data[i].length; j++)//varje aktivitet
+                            for (var k = 0; k < elever.length; k++)//alla dina elever
+                                if (elever[k].id == data[i][j].elev_id)//ta namnet
+                                    data[i][j].namn = elever[k].namn;
+                    $scope.aktiviteter = data;
+                });
             });
         }
     };
@@ -46,15 +55,12 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
         $(".aktivitet").not("#" + e.$id).slideUp();
         $("#" + e.$id).slideToggle();
     };
-    $scope.godkann = function (index) {
-        console.log("Godkänner " + index);
-        //Ta ut aktiviteten
-        var item = $scope.aktiviteter.splice(index, 1)[0];
+    $scope.godkann = function (groupIndex, aktivitetIndex) {
+        var item = $scope.aktiviteter[groupIndex].splice(aktivitetIndex, 1)[0];
         $scope.skickaHandledare(item, 1);
     };
-    $scope.neka = function (index) {
-        console.log("Nekar " + index);
-        var item = $scope.aktiviteter.splice(index, 1)[0];
+    $scope.neka = function (groupIndex, aktivitetIndex) {
+        var item = $scope.aktiviteter[groupIndex].splice(aktivitetIndex, 1)[0];
         $scope.skickaHandledare(item, 2);
     };
     $scope.skickaHandledare = function (item, godkant) {

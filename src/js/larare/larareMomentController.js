@@ -64,7 +64,7 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
                     globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
                 } else {
                     globalService.notify("Momentet är sparat.", "success");
-                    $scope.nyaMoment.push({innehall:innehall});
+                    $scope.getMomentLarare();
                 }
             });
             document.getElementById("momentInnehall").value = "";
@@ -77,7 +77,9 @@ module.controller("larareMomentCtrl", function ($scope, larareMomentService, glo
                 globalService.notify("Lyckades inte ta bort momentet.", "danger");
             else {
                 globalService.notify("Momentet har tagits bort.", "success");
-                location.reload();//TODO: Ladda inte om hela sidan, ta bara bort momentet från listan
+                var index = arrayObjectIndexOf($scope.lararMoment, moment_id, "id");
+                if(index > -1)
+                    $scope.lararMoment.splice(index, 1);
             }
         });
     };
