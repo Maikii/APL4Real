@@ -31,10 +31,13 @@ module.service("handledareService", function ($q) {
             kontakt: "Kontakt",
             loggaut: "Logga ut",
             //Kontakt
+            typ: "Typ",
             namn: "Namn",
             mail: "Mail",
             telefonnummer: "Telefonnummer",
             tfnr: "Tfnr.",
+            larare: "Lärare",
+            elev: "Elev",
             //Moment
             moments: "Moment",
             elevchoice: "Välj elev",
@@ -66,10 +69,13 @@ module.service("handledareService", function ($q) {
             kontakt: "Contact",
             loggaut: "Log out",
             //Kontakt
+            typ: "Type",
             namn: "Name",
             mail: "Mail",
             telefonnummer: "Phone Number",
             tfnr: "Phone",
+            larare: "Teacher",
+            elev: "Student",
             //Moment
             moments: "Assignments",
             elevchoice: "Choose student",

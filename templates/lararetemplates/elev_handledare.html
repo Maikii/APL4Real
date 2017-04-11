@@ -10,6 +10,13 @@
                     ng-change="getElever(selected_klass)">
             </select>
         </label>
+        <br/>
+        <label class="text-center">Handledare program
+            <select ng-model="selected_program"
+                    ng-options="program.id as program.namn for program in program_list"
+                    ng-change="getHandledarePerProgram(selected_program)">
+            </select>
+        </label>
         <form>
             <table class="table table-striped">
                 <tr>
@@ -20,8 +27,8 @@
                     <td>{{elev.namn}}</td>
                     <td>
                         <select class="dropdown"
-                                ng-init="elev.ny_handledare = elev.hl_id"
                                 ng-model="elev.ny_handledare"
+                                ng-init="elev.ny_handledare = elev.hl_id"
                                 ng-options="item.id as item.namn_foretag for item in handledare">
                         </select>
                     </td>

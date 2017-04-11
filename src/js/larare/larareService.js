@@ -43,6 +43,23 @@ module.service("larareService", function ($q) {
         });
         return deferred.promise;
     };
+    
+    this.getProgram = function () {
+        var deferred = $q.defer();
+        var url = SERVER_URL + "/apl/program/";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                deferred.resolve(data);
+            },
+            error: function (data)
+            {
+                deferred.resolve(data);
+            }
+        });
+        return deferred.promise;
+    };
 
     this.getAnvandarensElever = function (id_token) {
         var deferred = $q.defer();
@@ -103,13 +120,34 @@ module.service("larareService", function ($q) {
         });
         return deferred.promise;
     };
+
+    this.getHLPP = function (id_token, program) {
+        var url = SERVER_URL + "/info/handledare/program/" + program;
+        var deferred = $q.defer();
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                "Authorization": id_token,
+                "Content-Type": 'application/json'
+            },
+            success: function (data) {
+                deferred.resolve(data);
+            },
+            error: function (data) {
+                deferred.resolve(data);
+            }
+        });
+        return deferred.promise;
+    };
     
     this.larareSettings;
     if (!this.larareSettings) {
         if(!localStorage.larareSettings) {
             this.larareSettings = {
                 lastKlass : -1,
-                lastElev : -1
+                lastElev : -1,
+                lastProgram : -1
             };
             localStorage.larareSettings = JSON.stringify(this.larareSettings);
         } else {

@@ -7,6 +7,10 @@ module.controller("handledareKontaktCtrl", function ($scope, handledareKontaktSe
     $scope.getText = function (text) {
         return handledareService.getText(text);
     };
+    $scope.getTyp = function (typ) {
+        var text = typ === 1 ? "larare" : "elev";
+        return handledareService.getText(text);
+    };
     if (globalService.isLoggedIn(false)) {
         var anvandare = JSON.parse(localStorage.anvandare);
         var basic_auth = anvandare.basic_auth;

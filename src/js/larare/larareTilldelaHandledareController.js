@@ -13,11 +13,14 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
         larareService.getKlasser(id_token).then(function (data) {
             $scope.klasser = data;
         });
+        larareService.getProgram().then(function (data) {
+            $scope.program_list = data;
+        });
         larareService.getHL(id_token).then(function (data) {
             var handledare = [{
-                    id : null,
-                    namn_foretag : "Ingen Handledare"
-            }];
+                    id: null,
+                    namn_foretag: "Ingen Handledare"
+                }];
             handledare = handledare.concat(data);
             $scope.handledare = handledare;
         });
@@ -27,19 +30,30 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
         larareService.getElever(id_token, klass_id).then(function (data) {
             $scope.elever = data;
         });
-    }
-    /*
-    $scope.getPeople = function () {
-        if (globalService.isLoggedIn(true)) {
-            var id_token = JSON.parse(localStorage.anvandare).id_token;
-            larareService.getAnvandarensElever(id_token).then(function (data) {
-                $scope.elever = data;
+    };
+    $scope.getHandledarePerProgram = function (program) {
+        larareService.setSetting('lastProgram', program);
+        if (program > 0) {
+            larareService.getHLPP(id_token, program).then(function (data) {
+                var handledare = [{
+                        id: null,
+                        namn_foretag: "Ingen Handledare"
+                    }];
+                handledare = handledare.concat(data);
+                var copy = [].concat($scope.elever);
+                $scope.elever = [];
+                $scope.handledare = handledare;
+                //selected handledare blir null om man byger handledare lista
+                //så vi kopierar den gamla och sätter tillbaka den efteråt
+                setTimeout(function () {
+                    $scope.elever = copy;
+                    $scope.$apply();
+                }, 150);
             });
         }
     };
-    */
     $scope.kopplaElevHandledare = function () {
-        var id_token = JSON.parse(localStorage.anvandare).id_token;
+        console.log($scope.elever);
         var elever = $scope.elever;
         var array = [];
         for (var i = 0; i < elever.length; i++) {
