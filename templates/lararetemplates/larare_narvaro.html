@@ -45,6 +45,8 @@
                 </select>
             </label>
         </div>
+        <hr/>
+        <p ng-if="larareService.getSetting('unconfirmed_narvaro')">Färg på <strong>ej godkänd</strong> närvaro visas och kan komma att ändras.</p>
         <div ng-if="selected_elev === -1">
             <div class="narvaro_vecka" ng-repeat="elev in elever">
                 <h2 ng-if='elev.elev_id === -1' class='text-center'>Alla Elever</h2>

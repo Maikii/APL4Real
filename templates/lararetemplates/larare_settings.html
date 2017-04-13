@@ -9,15 +9,30 @@
                     ng-change="changeKlass(selected_klass)">
             </select>
         </label>
-        <hr>
-        <h1 class="text-center">Avancerat</h1>
-        <p>Oskickat</p>
-        <div ng-repeat="item in oskickat">
-            <p>URL: {{item.url}}</p>
-            <p>DATA: {{item.data}}</p>
-            <a class="btn btn-default" ng-click="raderaOskickat(item)">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </a>
+        <br/>
+        <label><input ng-model="advanced" type="checkbox"/> Visa avancerade inställningar</label>
+        <div ng-show="advanced">
+            <hr>
+            <h1 class="text-center">Avancerat</h1>
+            <div>
+                    <input ng-model="unconfirmed_narvaro" 
+                           ng-init="unconfirmed_narvaro = larareService.getSetting('unconfirmed_narvaro')"
+                           ng-change="larareService.setSetting('unconfirmed_narvaro', unconfirmed_narvaro)"
+                           ng-checked="unconfirmed_narvaro"
+                           type="checkbox"/>
+                    Visa färg på ej godkänd närvaro. 
+                    <strong>Färg på dagar kan ändras utan varning.</strong>
+            </div>
+            <div ng-if="oskickat.length">
+                <p>Oskickat</p>
+                <div ng-repeat="item in oskickat">
+                    <p>URL: {{item.url}}</p>
+                    <p>DATA: {{item.data}}</p>
+                    <a class="btn btn-default" ng-click="raderaOskickat(item)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div> 

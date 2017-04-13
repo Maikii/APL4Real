@@ -5,9 +5,9 @@
  */
 
 module.service("larareOversiktService", function ($q) {
-    this.getOmdome = function (id_token, klass_id) {
+    this.getOmdome = function (id_token, klass_id, year, month) {
         var deferred = $q.defer();
-        var url = SERVER_URL + "/larare/klass/" + klass_id + "/omdome";
+        var url = SERVER_URL + "/larare/klass/" + klass_id + "/omdome/" + year + "/" + month;
         $.ajax({
             url: url,
             type: 'GET',

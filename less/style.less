@@ -7,12 +7,19 @@ and open the template in the editor.
     Created on : 2016-jan-11, 11:29:43
     Author     : maikwagner
 */
+@narvarogron : rgb(100,255,100);
+@narvarogul : rgb(255,255,100);
+@narvarorod : rgb(255,100,100);
+@narvarovit : rgb(200,200,200);
+
 #chartContainer{
     width: 100%;
 }
 #chartContainer > div{
-    width:33%;
-    float:left;
+    width: 50%;
+    max-width: 200px;
+    float: left;
+    font-size: 1.1em;
 }
 #chartContainer > div * {
     width: 100%;
@@ -77,6 +84,32 @@ textarea.loggbok {
 .narvaro_dag:first-of-type{
     width: 9%;
 }
+.narvaro_dag {
+    &.gron {
+        background-color: @narvarogron;
+        &.gra {
+            background-color: darken(@narvarogron, 40%);
+        }
+    }
+    &.gul {
+        background-color: @narvarogul;
+        &.gra {
+            background-color: darken(@narvarogul, 40%);
+        }
+    }
+    &.rod {
+        background-color: @narvarorod;
+        &.gra {
+            background-color: darken(@narvarorod, 40%);
+        }
+    }
+    &.vit {
+        background-color: @narvarovit;
+    }
+    &.gra {
+        background-color: darken(@narvarovit, 25%);
+    }
+}/*
 .narvaro_dag.gron {
     background-color: rgb(100,255,100);
 }
@@ -94,7 +127,7 @@ textarea.loggbok {
 }
 .narvaro_dag.idag {
     box-shadow: 0 0 5px #0000FF inset;
-}
+}*/
 
 #wrapper>div {
     overflow:auto;

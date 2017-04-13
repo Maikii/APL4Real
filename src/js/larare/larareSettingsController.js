@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-module.controller("larareSettingsCtrl", function ($scope, $window, globalService, registrationService) {
+module.controller("larareSettingsCtrl", function ($scope, globalService, registrationService, larareService) {
     var id_token;
+    $scope.larareService = larareService;
     if (globalService.isLoggedIn(true)) {
         registrationService.getKlasser().then(function (data) {
             $scope.klasser = data;

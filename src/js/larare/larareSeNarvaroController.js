@@ -44,22 +44,30 @@ module.controller("larareSeNarvaroCtrl", function ($scope, larareSeNarvaroServic
             alla.push({elev_id: -1, namn: "Alla"});
             $scope.elever = alla.concat(data);
             $scope.getVeckor();
-            for (var i = $scope.currentYear - 10; i <= $scope.currentYear; i++)
+            for (var i = 2016; i <= $scope.currentYear; i++)
                 $scope.years.push(i);
             $scope.years.reverse();
         });
     };
     $scope.parseClass = function (ljus, godkant) {
-        if (godkant === 0)
-            return 'gra';
+        var color = godkant === 0 ? "gra" : "";
+        console.log((!larareService.getSetting("unconfirmed_narvaro") && color.length));
+        if (!larareService.getSetting("unconfirmed_narvaro") && color.length)
+            return color;
+        
+        if (color.length)
+            color += " ";
+        
         if (ljus === 0)
-            return 'rod';
+            color += 'rod';
         else if (ljus === 1)
-            return 'gul';
+            color += 'gul';
         else if (ljus === 2)
-            return 'gron';
+            color += 'gron';
         else
-            return 'vit';
+            color += 'vit';
+        
+        return color;
 
     };
     $scope.todayClass = function (datum) {
