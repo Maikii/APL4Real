@@ -68,7 +68,12 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         $("." + ljus).addClass("vald");
     };
     $scope.onImgUrl = function (responseText, statusText, xhr, $form) {
-        response = JSON.parse(responseText);
+        var response;
+        try{
+            response = JSON.parse(responseText);
+        } catch(e) {
+            response = responseText;
+        }
         gbild = response.filename;
         $("#loggimg").attr("src", $scope.getBildUrl("\"" + gbild + "\"", 600));
     };

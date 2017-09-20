@@ -1,5 +1,4 @@
 <?php
-
 //för cors
 //header("Access-Control-Allow-Origin: *");
 //för Auth
@@ -11,7 +10,7 @@ $verb = $_SERVER['REQUEST_METHOD'];
 //max höjd eller bred
 $MAX_WIDTH_HEIGHT = 500;
 //mapp
-$target_dir = "/uploads/";
+$target_dir = getcwd() . "/uploads/";
 
 if ($verb == "POST") {
 
@@ -47,7 +46,7 @@ if ($verb == "POST") {
         echo json_encode($arr);
     } else {
 
-        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], getcwd() . $target_dir . $uniqueFilename)) {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $uniqueFilename)) {
             //resize
             list($width, $height) = getimagesize($target_dir . $uniqueFilename);
             if ($width > $MAX_WIDTH_HEIGHT || $height > $MAX_WIDTH_HEIGHT) {
@@ -64,22 +63,27 @@ if ($verb == "POST") {
         }
     }
 } else if ($verb == "GET") {
-    
+
     if (isset($_GET['size'])) {
         $size = filter_input(INPUT_GET, 'size', FILTER_SANITIZE_ENCODED);
         
     }else { $size = 200;}
-    
+
     if (isset($_GET['file'])) {
         $file = $target_dir . filter_input(INPUT_GET, 'file', FILTER_SANITIZE_ENCODED);
+
+	if(!getimagesize($file)) {
+    	   //Skicka 405
+    	   header('HTTP/1.0 400 Bad Request');
+	   exit;
+	}
         
        $image = resize_image($file, $size, $size, pathinfo($file, PATHINFO_EXTENSION), true);
        showImage($image, pathinfo($file, PATHINFO_EXTENSION));  
        
     }
     
-    echo pathinfo($file, PATHINFO_EXTENSION);
-
+    //echo pathinfo($file, PATHINFO_EXTENSION);
 } else {
     //Skicka 405
     header('HTTP/1.0 405 Method Not Allowed');
