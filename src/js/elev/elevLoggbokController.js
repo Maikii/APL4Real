@@ -18,16 +18,25 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
             $window.location.href = "#/logout";
         }
     };
+    var anvandare = JSON.parse(localStorage.anvandare);
+    if(anvandare.loggprivat !== undefined) {
+        $scope.privat = anvandare.loggprivat;
+    } else {
+        anvandare.loggprivat = false;
+    }
+    
     $scope.postLogg = function () {
         //Göra om till databasens Date
         var datum = $scope.datum;
         var innehall = $scope.text;
         var ljus = parseInt($scope.ljus);
-        var privat = $scope.privat || false;
+        var privat = $scope.privat;
         var bild = gbild;
         if (!bild)
             bild = null;
+        
         if (datum && innehall && ljus >= 0 && innehall.length <= 1024) {
+            
             var targetUrl = "/elev/logg";
             var data = {
                 "datum": datum,
@@ -56,6 +65,10 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         } else {
             globalService.notify("Du måste fylla i datum, innehåll och upplevelse av dagen.", "danger");
         }
+    };
+    $scope.updatePrivat = function () {
+        anvandare.loggprivat = $scope.privat;
+        localStorage.anvandare = JSON.stringify(anvandare);
     };
     $scope.valj = function (ljus) {
         if (ljus === "rod")

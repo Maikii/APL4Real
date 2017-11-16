@@ -6,7 +6,7 @@
         <label>Datum:</label><br>
         
         <input ng-model="datum" id="dateInput" type="text" placeholder="ÅÅÅÅ-MM-DD"/><br>
-        <input type="checkbox" ng-model="privat"/><label>Skicka loggboken direkt till din lärare?</label>
+        <input type="checkbox" ng-model="privat" ng-click="updatePrivat()"/><label>Skicka loggboken direkt till din lärare?</label>
         <hr/>
         <textarea class="loggbok" ng-model="text" placeholder="Skriv din loggbok här"></textarea>
         <div ng-include="'templates/sendfile.html'"></div>
