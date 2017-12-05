@@ -12,7 +12,7 @@ module.controller("larareCtrl", function ($scope, $window, globalService) {
             $window.location.href = "#/logout";
         }
         else if (globalService.isLoggedIn(false, true)) {
-            localStorage.clear("anvandare");
+            localStorage.anvandare = "";
             $window.location.href = "#";
         } else {
             $window.location.href = "#";

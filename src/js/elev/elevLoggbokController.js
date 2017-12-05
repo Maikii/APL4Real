@@ -31,9 +31,13 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         var innehall = $scope.text;
         var ljus = parseInt($scope.ljus);
         var privat = $scope.privat;
+        if (!privat)
+            privat = false;
         var bild = gbild;
         if (!bild)
             bild = null;
+        
+        console.log("hey: " + privat);
         
         if (datum && innehall && ljus >= 0 && innehall.length <= 1024) {
             

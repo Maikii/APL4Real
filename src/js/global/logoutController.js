@@ -6,7 +6,7 @@
 
 
 module.controller("logoutCtrl", function ($window) {
-    localStorage.clear("anvandare");
+    localStorage.anvandare = "";
     window.onSignOut = function () {
         var auth2 = gapi.auth2.getAuthInstance();
         console.log(auth2);

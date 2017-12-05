@@ -14,7 +14,7 @@ module.controller("elevCtrl", function ($scope, $window, elevLoggbokService, glo
             $window.location.href = "#/logout";
         }
         else if (globalService.isLoggedIn(false, true)) {
-            localStorage.clear("anvandare");
+            localStorage.anvandare = "";
             $window.location.href = "#";
         } else {
             $window.location.href = "#";
