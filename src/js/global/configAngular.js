@@ -1,9 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 var module = angular.module("apl", ["ui.router"]);
 
 module.config(function ($urlRouterProvider, $stateProvider) {
@@ -118,18 +112,18 @@ module.config(function ($urlRouterProvider, $stateProvider) {
         url: "/larare_c_loggbok",
         templateUrl: "templates/lararetemplates/larare_c_loggbok.html",
         controller: ""
-    }).state("se_moment_larare",{
-        url:"/se_moment_larare",
-        templateUrl:"templates/lararetemplates/se_moment_larare.html",
-        controller:"larareMomentCtrl"
-    }).state("skapa_moment",{
-        url:"/skapa_moment",
-        templateUrl:"templates/lararetemplates/skapa_moment.html",
-        controller:"larareMomentCtrl"
-    }).state("tilldela_moment",{
-        url:"/tilldela_moment",
-        templateUrl:"templates/lararetemplates/tilldela_moment.html",
-        controller:"larareTilldelaMomentCtrl"
+    }).state("se_moment_larare", {
+        url: "/se_moment_larare",
+        templateUrl: "templates/lararetemplates/se_moment_larare.html",
+        controller: "larareMomentCtrl"
+    }).state("skapa_moment", {
+        url: "/skapa_moment",
+        templateUrl: "templates/lararetemplates/skapa_moment.html",
+        controller: "larareMomentCtrl"
+    }).state("tilldela_moment", {
+        url: "/tilldela_moment",
+        templateUrl: "templates/lararetemplates/tilldela_moment.html",
+        controller: "larareTilldelaMomentCtrl"
     }).state("redigera_anv", {
         url: "/redigera",
         templateUrl: "templates/lararetemplates/larare_redigera_anv.html",

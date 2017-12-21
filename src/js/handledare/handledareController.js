@@ -1,27 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 module.controller("handledareCtrl", function ($scope, $window, globalService, handledareService) {
     $scope.logout = function () {
-        if (globalService.isLoggedIn(true, true)) {
-            var anvandare = JSON.parse(localStorage.anvandare);
-            anvandare.id_token = "";
-            localStorage.anvandare = JSON.stringify(anvandare);
-            $window.location.href = "#/logout";
-        }
-        else if (globalService.isLoggedIn(false, true)) {
-            var anvandare = JSON.parse(localStorage.anvandare);
-            anvandare.basic_auth = "";
-            localStorage.anvandare = JSON.stringify(anvandare);
-            $window.location.href = "/handledare";
-        } else {
-            $window.location.href = "#";
-        }
+        $window.location.href = globalService.logout();
     };
-    
+    //Språkval
     if (!localStorage.settings) {
         localStorage.settings = JSON.stringify({});
     }
@@ -31,21 +12,24 @@ module.controller("handledareCtrl", function ($scope, $window, globalService, ha
         localStorage.settings = JSON.stringify($scope.settings);
     }
     $scope.changeLanguage = function () {
+        //Byt mellan språk
         var language = $scope.settings.language;
-        if (language == "se") {
+        if (language === "se") {
             $scope.settings.language = "en";
-        } else if (language == "en") {
+        } else if (language === "en") {
             $scope.settings.language = "se";
         }
+        //Spara språkval
         localStorage.settings = JSON.stringify($scope.settings);
     };
+    //Hämta text för det språk som är valt
     $scope.getText = function (text) {
         return handledareService.getText(text);
     };
     $scope.getFlagUrl = function () {
         return handledareService.getFlagUrl();
     };
-
+    //Skicka oskickat
     globalService.kollaStorage().then(function (responses) {
         console.log(responses);
     });

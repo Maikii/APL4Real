@@ -1,11 +1,7 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+/* global IMG_SERVER_URL */
 
 module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetService, globalService) {
+    //Byt siffror till ord
     $scope.parseLjus = function (i) {
         if (i === 0)
             return "frånvarande";
@@ -23,13 +19,9 @@ module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetS
             return "Moment";
     };
     $scope.getBildUrl = function (bild, storlek) {
-        //tar bort citattecknen som kommer vem fan vet var ifrån
-        bild = bild.substr(1, bild.length - 2);
-        if (storlek)
-            return IMG_SERVER_URL + "?file=" + bild + "&size=" + storlek;
-        else
-            return IMG_SERVER_URL + "?file=" + bild;
+        return globalService.getBildUrl(bild, storlek);
     };
+    //Hämta & visa aktiviteter om inloggad.
     $scope.getNekadeAktiviteter = function () {
         if (globalService.isLoggedIn(true)) {
             var id_token = JSON.parse(localStorage.anvandare).id_token;
@@ -39,10 +31,12 @@ module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetS
             });
         }
     };
+    //Visa aktivitet
     $scope.show = function (e) {
         $(".aktivitet").not("#" + e.$id).slideUp();
         $("#" + e.$id).slideToggle();
     };
+    //Hantera data att skicka
     $scope.skickaMoment = function (index) {
         var item = $scope.aktiviteter.splice(index, 1)[0];
         var data = {
@@ -69,6 +63,7 @@ module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetS
         };
         $scope.skickaElev(data);
     };
+    //Ta bort aktiviteter
     $scope.raderaLogg = function (index) {
         var id_token = JSON.parse(localStorage.anvandare).id_token;
         var item = $scope.aktiviteter.splice(index, 1)[0];
@@ -93,6 +88,7 @@ module.controller("elevAktivitetCtrl", function ($scope, $window, elevAktivitetS
             }
         });
     };
+    //Skicka tilbaka aktiviteter
     $scope.skickaElev = function (data) {
         var url = "/elev/aktivitet";
         globalService.skickaData(url, data).then(function (responses) {

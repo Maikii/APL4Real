@@ -1,11 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, larareService, globalService) {
+    //Lägg till i scope för användning i template
     $scope.larareService = larareService;
     var id_token;
+    //Hämta & visa klasser/program/handledare
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
         id_token = anvandare.id_token;
@@ -25,13 +22,16 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
             $scope.handledare = handledare;
         });
     }
+    //Hämta & visa elever i vald klass
     $scope.getElever = function (klass_id) {
         larareService.setSetting('lastKlass', klass_id);
         larareService.getElever(id_token, klass_id).then(function (data) {
             $scope.elever = data;
         });
     };
+    //Hämta & visa handledare i valt program
     $scope.getHandledarePerProgram = function (program) {
+        //Spare valt program
         larareService.setSetting('lastProgram', program);
         if (program > 0) {
             larareService.getHLPP(id_token, program).then(function (data) {
@@ -43,8 +43,8 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
                 var copy = [].concat($scope.elever);
                 $scope.elever = [];
                 $scope.handledare = handledare;
-                //selected handledare blir null om man byger handledare lista
-                //så vi kopierar den gamla och sätter tillbaka den efteråt
+                //Selected handledare blir null om man bygger handledare lista
+                //Så vi kopierar den gamla och sätter tillbaka den efteråt
                 setTimeout(function () {
                     $scope.elever = copy;
                     $scope.$apply();
@@ -52,11 +52,13 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
             });
         }
     };
+    //Skicka tilldelning av handledare
     $scope.kopplaElevHandledare = function () {
-        console.log($scope.elever);
         var elever = $scope.elever;
         var array = [];
+        //Leta efter ändringar i varje elev
         for (var i = 0; i < elever.length; i++) {
+            //Spara dem som ändrats
             if (elever[i].ny_handledare !== elever[i].hl_id)
             {
                 array.push({
@@ -66,6 +68,7 @@ module.controller("larareTilldelaHandledareCtrl", function ($scope, $window, lar
                 elever[i].hl_id = elever[i].ny_handledare;
             }
         }
+        //Om vi hittat några som ändrats, skicka
         if (array.length > 0) {
             var targetUrl = "/larare/koppla";
             globalService.skickaData(targetUrl, array).then(function (responses) {

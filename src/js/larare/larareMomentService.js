@@ -1,5 +1,7 @@
+/* global SERVER_URL */
+
 module.service("larareMomentService", function ($http, $q) {
-    //hämta moment
+    //Hämta moment
     this.getMoment = function (id_token, elev_id) {
         var deferred = $q.defer();
         var url = SERVER_URL + "/larare/elev/" + elev_id + "/moment";

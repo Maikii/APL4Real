@@ -1,16 +1,13 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-module.controller("larareRegHandledareCtrl", function ($scope, registrationService, globalService) {
-    globalService.isLoggedIn(true);
-    var promiseProgram = registrationService.getProgram();
-    promiseProgram.then(function (data) {
-        $scope.programs = data;
-    });
+module.controller("larareRegHandledareCtrl", function ($scope, larareService, globalService) {
+    //Hämta program om inloggad
+    if (globalService.isLoggedIn(true)) {
+        larareService.getProgram().then(function (data) {
+            $scope.programs = data;
+        });
+    }
+    //Registrera
     $scope.registreraHandledare = function () {
+        //Om undefined, bli tom
         var anvandarnamn = $scope.username || "";
         var losenord = $scope.password || "";
         var email = $scope.email || "";
@@ -28,6 +25,7 @@ module.controller("larareRegHandledareCtrl", function ($scope, registrationServi
             foretag: foretag,
             program_id: program
         };
+        //Se till att allt är ifyllt
         if (anvandarnamn.length > 0 && losenord.length > 0 && email.length > 0
                 && tfnr.length > 0 && namn.length > 0 && foretag.length > 0
                 && program > -1) {
@@ -36,6 +34,7 @@ module.controller("larareRegHandledareCtrl", function ($scope, registrationServi
                     globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
                 } else {
                     globalService.notify("Din handledare har blivit registrerad.", "success");
+                    //Töm alla fält
                     $scope.username = "";
                     $scope.password = "";
                     $scope.email = "";

@@ -1,11 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 /* global SERVER_URL */
 
 module.service("handledareAktivitetService", function ($q) {
@@ -14,15 +6,14 @@ module.service("handledareAktivitetService", function ($q) {
         var deferred = $q.defer();
         $.ajax({
             url: this.url + "/aktiviteter",
-            type: 'get',
+            type: 'GET',
             headers: {
                 "Authorization": basic_auth
             },
             success: function (data) {
                 deferred.resolve(data);
             },
-            error: function (data)
-            {
+            error: function (data) {
                 deferred.resolve(data);
             }
         });

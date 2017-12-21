@@ -1,3 +1,5 @@
+/* global SERVER_URL */
+
 module.service("handledareMomentService", function ($http, $q) {
     //hämta alla moment från handledarens elev
     this.handledareSeMoment = function (basic_auth) {
@@ -13,12 +15,10 @@ module.service("handledareMomentService", function ($http, $q) {
             success: function (data) {
                 deferred.resolve(data);
             },
-            error: function (data)
-            {
+            error: function (data) {
                 deferred.resolve(data);
             }
         });
-
         return deferred.promise;
     };
 });

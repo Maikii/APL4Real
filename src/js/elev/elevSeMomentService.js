@@ -1,7 +1,8 @@
-module.service("getMoment", function ($http, $q) {
+/* global SERVER_URL */
 
+module.service("getMoment", function ($http, $q) {
     this.url = SERVER_URL + "/elev/moment";
-    
+
     this.getMoment = function (id_token) {
         var deferred = $q.defer();
         $.ajax({
@@ -21,6 +22,4 @@ module.service("getMoment", function ($http, $q) {
         });
         return deferred.promise;
     };
-    
-    
 });

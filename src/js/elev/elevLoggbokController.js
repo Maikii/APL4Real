@@ -1,32 +1,18 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//global för att ändringar i $scope aldrig stannade kvar
+/* global IMG_SERVER_URL */
+
+//Global för att ändringar i $scope aldrig stannade kvar
 var gbild;
 module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokService, globalService) {
-    if (window.location.hash.includes("elev_loggbok"))
-        globalService.isLoggedIn(true);
-    $scope.logout = function () {
-        if (!localStorage.anvandare)
-            $window.location.href = "#";
-        else {
-            var anvandare = JSON.parse(localStorage.anvandare);
-            anvandare.id_token = "";
-            localStorage.anvandare = JSON.stringify(anvandare);
-            $window.location.href = "#/logout";
-        }
-    };
+    //Se till att variablen privat blir sparad.
     var anvandare = JSON.parse(localStorage.anvandare);
-    if(anvandare.loggprivat !== undefined) {
+    if (anvandare.loggprivat !== undefined) {
         $scope.privat = anvandare.loggprivat;
     } else {
         anvandare.loggprivat = false;
     }
-    
+
+    //Skicka loggboken
     $scope.postLogg = function () {
-        //Göra om till databasens Date
         var datum = $scope.datum;
         var innehall = $scope.text;
         var ljus = parseInt($scope.ljus);
@@ -36,11 +22,9 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         var bild = gbild;
         if (!bild)
             bild = null;
-        
-        console.log("hey: " + privat);
-        
+
         if (datum && innehall && ljus >= 0 && innehall.length <= 1024) {
-            
+
             var targetUrl = "/elev/logg";
             var data = {
                 "datum": datum,
@@ -51,11 +35,11 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
             };
             globalService.skickaData(targetUrl, data).then(function (responses) {
                 var status = responses[0].status;
-                if (status == 201) {
+                if (status == 201) { //Created
                     globalService.notify("Loggboken har skickats.", "success");
-                } else if (status == 401) {
+                } else if (status == 401) { //Forbidden
                     globalService.notify("Du verkar inte vara inloggad längre. Försök logga in igen", "danger");
-                } else {
+                } else { //Okänt fel
                     globalService.notify("Loggboken kommer skickas automatiskt.", "info");
                 }
                 gbild = undefined;
@@ -70,10 +54,12 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
             globalService.notify("Du måste fylla i datum, innehåll och upplevelse av dagen.", "danger");
         }
     };
+    //Spara checkboxen
     $scope.updatePrivat = function () {
         anvandare.loggprivat = $scope.privat;
         localStorage.anvandare = JSON.stringify(anvandare);
     };
+    //Välj röd/gul/grön
     $scope.valj = function (ljus) {
         if (ljus === "rod")
             $scope.ljus = 0;
@@ -84,23 +70,19 @@ module.controller("elevLoggbokCtrl", function ($scope, $window, elevLoggbokServi
         $(".vald").removeClass("vald");
         $("." + ljus).addClass("vald");
     };
+    //Hantera svar från bilduppladdning
     $scope.onImgUrl = function (responseText, statusText, xhr, $form) {
         var response;
-        try{
+        try {
             response = JSON.parse(responseText);
-        } catch(e) {
+        } catch (e) {
             response = responseText;
         }
         gbild = response.filename;
-        $("#loggimg").attr("src", $scope.getBildUrl("\"" + gbild + "\"", 600));
+        $("#loggimg").attr("src", $scope.getBildUrl(gbild, 600));
     };
     $scope.getBildUrl = function (bild, storlek) {
-        //tar bort citattecknen som kommer vem fan vet var ifrån
-        bild = bild.substr(1, bild.length - 2);
-        if (storlek)
-            return IMG_SERVER_URL + "?file=" + bild + "&size=" + storlek;
-        else
-            return IMG_SERVER_URL + "?file=" + bild;
+        return globalService.getBildUrl(bild, storlek);
     };
     window.onImgUrl = $scope.onImgUrl;
     globalService.kollaStorage().then(function (responses) {

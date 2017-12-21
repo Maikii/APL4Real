@@ -1,30 +1,13 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 /* global SERVER_URL */
 
 module.service("handledareService", function ($q) {
+    //Text för alla språk
     this.text = {
         se: {
             //Aktivitet
             yes: "Ja",
             no: "Nej",
             confirm: "Stämmer detta",
-            momentTitle: "Moment",
-            moment: "tycker att de har avklarat följande moment",
-            loggbokTitle: "Loggbok",
-            loggbok: "har skickat in följande loggbok",
-            narvaroTitle: "Närvaro",
-            narvaro1: "rapporterade att hen var",
-            narvaro2a: "frånvarande",
-            narvaro2b: "delvis närvarande",
-            narvaro2c: "närvarande hela",
-            narvaro3: "denna dag",
             //Menu
             aktivitet: "Aktivitet",
             seeMoment: "Se moment",
@@ -38,8 +21,25 @@ module.service("handledareService", function ($q) {
             tfnr: "Tfnr.",
             larare: "Lärare",
             elev: "Elev",
+            //Loggbok
+            loggbokTitle: "Loggbok",
+            loggbok: "har skickat in följande loggbok",
+            //Närvaro
+            narvaroTitle: "Närvaro",
+            narvaro1: "rapporterade att hen var",
+            narvaro2a: "frånvarande",
+            narvaro2b: "delvis närvarande",
+            narvaro2c: "närvarande hela",
+            narvaro3: "denna dag",
             //Moment
+            momentTitle: "Moment",
+            moment: "tycker att de har avklarat följande moment",
             moments: "Moment",
+            //Responses
+            confirmSuccess: "Aktiviteten godkändes.",
+            declineSuccess: "Aktiviteten nekades.",
+            defaultFailure: "Aktiviteten kommer skickas automatiskt.",
+            //Annat
             elevchoice: "Välj elev",
             status: "Status",
             innehall: "Innehåll",
@@ -53,16 +53,6 @@ module.service("handledareService", function ($q) {
             yes: "Yes",
             no: "No",
             confirm: "Is this correct",
-            momentTitle: "Assignment",
-            moment: "believes they have completed the following assignment",
-            loggbokTitle: "Logbook",
-            loggbok: "has sent in the following logbook",
-            narvaroTitle: "Attendance",
-            narvaro1: "reported being",
-            narvaro2a: "absent",
-            narvaro2b: "partly present",
-            narvaro2c: "present the entirety of",
-            narvaro3: "this day",
             //Menu
             aktivitet: "Activity",
             seeMoment: "View assignments",
@@ -76,8 +66,25 @@ module.service("handledareService", function ($q) {
             tfnr: "Phone",
             larare: "Teacher",
             elev: "Student",
+            //Loggbok
+            loggbokTitle: "Logbook",
+            loggbok: "has sent in the following log",
+            //Närvaro
+            narvaroTitle: "Attendance",
+            narvaro1: "reported being",
+            narvaro2a: "absent",
+            narvaro2b: "partly present",
+            narvaro2c: "present the entirety of",
+            narvaro3: "this day",
             //Moment
+            momentTitle: "Assignment",
+            moment: "believes they have completed the following assignment",
             moments: "Assignments",
+            //Responses
+            confirmSuccess: "Activity confirmed.",
+            declineSuccess: "Activity declined.",
+            defaultFailure: "The activity will be sent automatically.",
+            //Annat
             elevchoice: "Choose student",
             status: "Status",
             innehall: "Content",
@@ -87,6 +94,7 @@ module.service("handledareService", function ($q) {
             status3: "Declined"
         }
     };
+    //Flaggor för språk
     this.flags = {
         se: "BilderAPL/Sweden-icon.png",
         en: "BilderAPL/United-Kingdom-icon.png"
@@ -110,6 +118,7 @@ module.service("handledareService", function ($q) {
         });
         return deferred.promise;
     };
+    //Tar text för valt språk
     this.getText = function (text) {
         var language = JSON.parse(localStorage.settings).language;
         return this.text[language][text];

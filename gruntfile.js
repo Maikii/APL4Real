@@ -22,12 +22,14 @@ module.exports = function (grunt) {
                     'js/aplapp.min.js': [
                         /* GLOBAL */
                         'src/js/global/globalVars.js',
+                        'src/js/global/globalFuncs.js',
                         'src/js/global/configAngular.js',
                         'src/js/global/globalService.js',
                         'src/js/global/loginService.js',
                         'src/js/global/registrationService.js',
                         'src/js/global/loginController.js',
                         'src/js/global/logoutController.js',
+                        'src/js/global/narvaroService.js',
                         'src/js/global/registrationController.js',
                         'src/js/global/kommentarController.js',
                         /* LÄRARE */

@@ -1,17 +1,9 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 module.controller("handledareAktivitetCtrl", function ($scope, $window, handledareAktivitetService, globalService, handledareService) {
+    //Hämta text för det språk som är valt
     $scope.getText = function (text) {
         return handledareService.getText(text);
     };
-    $scope.getElevName = function (id) {
-        return handledareService.getElevName(id);
-    };
+    //Siffror till text
     $scope.parseLjus = function (i) {
         if (i === 0)
             return $scope.getText("narvaro2a");
@@ -20,6 +12,7 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
         else if (i === 2)
             return $scope.getText("narvaro2c");
     };
+    //Siffror till text
     $scope.parseRubrik = function (i) {
         if (i === 0)
             return $scope.getText("narvaroTitle");
@@ -29,32 +22,37 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
             return $scope.getText("momentTitle");
     };
     $scope.getBildUrl = function (bild, storlek) {
-        //tar bort citattecknen som kommer vem fan vet var ifrån
-        bild = bild.substr(1, bild.length - 2);
-        if (storlek)
-            return IMG_SERVER_URL + "?file=" + bild + "&size=" + storlek;
-        else
-            return IMG_SERVER_URL + "?file=" + bild;
+        return globalService.getBildUrl(bild, storlek);
     };
+    //Hämta & visar aktiviteter om inloggad
     $scope.getHandledareAktiviteter = function () {
+        //Inloggad? (ej google)
         if (globalService.isLoggedIn(false)) {
             var basic_auth = JSON.parse(localStorage.anvandare).basic_auth;
+            //Hämta elever
             handledareService.getElever(basic_auth).then(function (elever) {
+                //Hämta aktiviteter
                 handledareAktivitetService.getHandledareAktiviteter(basic_auth).then(function (data) {
-                    for (var i = 0; i < data.length; i++)//loopa grupper
-                        for (var j = 0; j < data[i].length; j++)//varje aktivitet
-                            for (var k = 0; k < elever.length; k++)//alla dina elever
-                                if (elever[k].id == data[i][j].elev_id)//ta namnet
+                    //Loopa aktivitetsgrupper
+                    for (var i = 0; i < data.length; i++)
+                        //Loopa igenom varje aktivitet i gruppen
+                        for (var j = 0; j < data[i].length; j++)
+                            //Leta igenom elever tills aktivitetens ägare hittas
+                            for (var k = 0; k < elever.length; k++)
+                                //Kopiera namnet från elev till aktiviteten
+                                if (elever[k].id === data[i][j].elev_id)
                                     data[i][j].namn = elever[k].namn;
                     $scope.aktiviteter = data;
                 });
             });
         }
     };
+    //Visa / Dölj valda aktiviteter
     $scope.show = function (e) {
         $(".aktivitet").not("#" + e.$id).slideUp();
         $("#" + e.$id).slideToggle();
     };
+    //Hantera aktiviteter
     $scope.godkann = function (groupIndex, aktivitetIndex) {
         var item = $scope.aktiviteter[groupIndex].splice(aktivitetIndex, 1)[0];
         $scope.skickaHandledare(item, 1);
@@ -72,8 +70,14 @@ module.controller("handledareAktivitetCtrl", function ($scope, $window, handleda
         };
 
         globalService.skickaData(url, data).then(function (responses) {
-            if (responses[0].status < 200 || responses[0].status > 299) {
-                globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
+            var status = responses[0].status;
+            if (status == 200) { //Success
+                if (godkant === 1)
+                    globalService.notify($scope.getText("confirmSuccess"), "success");
+                else if (godkant === 2)
+                    globalService.notify($scope.getText("declineSuccess"), "success");
+            } else { //Okänt fel
+                globalService.notify($scope.getText("defaultFailure"), "info");
             }
         });
     };

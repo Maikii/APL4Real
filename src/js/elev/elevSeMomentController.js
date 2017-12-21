@@ -1,4 +1,5 @@
 module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService) {
+    //Hämta & visa moment om inloggad
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
         var id_token = anvandare.id_token;
@@ -7,6 +8,7 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
             $scope.moment = data;
         });
     }
+    //Siffror till ord
     $scope.getStatus = function (status) {
         if (status === 0)
             return "Icke avklarad";
@@ -17,8 +19,7 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
         else if (status === 3)
             return "Nekad";
     };
-
-
+    //Uppdatera moment
     $scope.setStatus = function (id) {
         var data = {
             "id": id
@@ -29,27 +30,11 @@ module.controller("elevSeMomentCtrl", function ($scope, getMoment, globalService
                 globalService.notify("Ett fel inträffade, datan kommer skickas automatiskt.", "info");
             } else {
                 globalService.notify("Momentet har skickats.", "success");
+                //Uppdatera status till "Väntande"
                 var index = arrayObjectIndexOf($scope.moment, id, "moment_id");
-                if(index > -1)
+                if (index > -1)
                     $scope.moment[index].godkand = 1;
             }
         });
     };
-
-    $scope.Status = function (id) {
-        if (id === 0) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
 });
-
-function arrayObjectIndexOf(myArray, searchTerm, property) {
-    for (var i = 0, len = myArray.length; i < len; i++) {
-        if (myArray[i][property] === searchTerm)
-            return i;
-    }
-    return -1;
-}

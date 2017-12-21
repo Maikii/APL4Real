@@ -1,15 +1,12 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 module.controller("larareRedigeraAnvCtrl", function ($scope, larareRedigeraAnvService, globalService, larareService) {
+    //Ta id_token om inloggad, används för att hämta data
     var id_token;
     if (globalService.isLoggedIn(true)) {
         var anvandare = JSON.parse(localStorage.anvandare);
-        var id_token = anvandare.id_token;
+        id_token = anvandare.id_token;
     }
 
+    //Töm fälten
     $scope.rensa = function () {
         $scope.ddHandledare = -1;
         $scope.ddElev = -1;
@@ -20,26 +17,31 @@ module.controller("larareRedigeraAnvCtrl", function ($scope, larareRedigeraAnvSe
         document.getElementById("HLlosen").value = "";
     };
 
+    //Hämta data
     $scope.laddaAnv = function () {
+        //Handledare
         larareService.getHL(id_token).then(function (data) {
             var handledare = [{
-                    id : null,
-                    namn_foretag : "Ingen Handledare"
-            }];
+                    id: null,
+                    namn_foretag: "Ingen Handledare"
+                }];
             handledare = handledare.concat(data);
             $scope.HLLista = handledare;
             console.log(handledare);
         });
 
+        //Elever
         larareService.getAnvandarensElever(id_token).then(function (data) {
             $scope.EleverLista = data;
         });
 
+        //Klasser
         larareService.getAllaKlasser().then(function (data) {
             $scope.klasser = data;
         });
     };
 
+    //Visa vald elev
     $scope.laddaElev = function () {
         var elev_id = parseInt($scope.ddElev);
         larareRedigeraAnvService.getElevInfo(id_token, elev_id).then(function (data) {
@@ -49,6 +51,7 @@ module.controller("larareRedigeraAnvCtrl", function ($scope, larareRedigeraAnvSe
         });
     };
 
+    //Visa vald handledare
     $scope.laddaHL = function () {
         var hl_id = parseInt($scope.ddHandledare);
         larareRedigeraAnvService.getHLInfo(id_token, hl_id).then(function (data) {
@@ -57,6 +60,7 @@ module.controller("larareRedigeraAnvCtrl", function ($scope, larareRedigeraAnvSe
         });
     };
 
+    //Skicka data
     $scope.sparaHL = function () {
         var url = "/larare/handledare/redigera";
         var id = parseInt($scope.ddHandledare);

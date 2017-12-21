@@ -1,16 +1,14 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 module.controller("logoutCtrl", function ($window) {
-    localStorage.anvandare = "";
+    var anvandare = JSON.parse(localStorage.anvandare);
+    delete anvandare.id_token;
+    delete anvandare.google_id;
+    delete anvandare.expires_at;
+    localStorage.anvandare = JSON.stringify(anvandare);
     window.onSignOut = function () {
         var auth2 = gapi.auth2.getAuthInstance();
         console.log(auth2);
         auth2.signOut().then(function () {
+            //Flytta till starsidan efter utloggning
             $window.location.href = "#/";
         });
     };

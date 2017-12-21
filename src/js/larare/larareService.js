@@ -1,17 +1,10 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* global SERVER_URL */
 
 module.service("larareService", function ($q) {
-    this.url = SERVER_URL + "/larare";
     this.getKlasser = function (id_token) {
         var deferred = $q.defer();
         $.ajax({
-            url: this.url + "/klasser",
+            url: SERVER_URL + "/larare/klasser",
             type: 'GET',
             headers: {
                 "Authorization": id_token
@@ -43,7 +36,7 @@ module.service("larareService", function ($q) {
         });
         return deferred.promise;
     };
-    
+
     this.getProgram = function () {
         var deferred = $q.defer();
         var url = SERVER_URL + "/apl/program/";
@@ -84,7 +77,7 @@ module.service("larareService", function ($q) {
     this.getElever = function (id_token, klass_id) {
         var deferred = $q.defer();
         $.ajax({
-            url: this.url + "/klass/" + klass_id,
+            url: SERVER_URL + "/larare/klass/" + klass_id,
             type: 'GET',
             headers: {
                 "Authorization": id_token,
@@ -140,24 +133,26 @@ module.service("larareService", function ($q) {
         });
         return deferred.promise;
     };
-    
+
+    //Spara inställningar
     this.larareSettings;
     if (!this.larareSettings) {
-        if(!localStorage.larareSettings) {
+        if (!localStorage.larareSettings) {
+            //Senaste valda saker
             this.larareSettings = {
-                lastKlass : -1,
-                lastElev : -1,
-                lastProgram : -1
+                lastKlass: -1,
+                lastElev: -1,
+                lastProgram: -1
             };
             localStorage.larareSettings = JSON.stringify(this.larareSettings);
         } else {
             this.larareSettings = JSON.parse(localStorage.larareSettings);
         }
     }
-    this.getSetting = function(setting) {
+    this.getSetting = function (setting) {
         return this.larareSettings[setting];
     };
-    this.setSetting = function(setting, value) {
+    this.setSetting = function (setting, value) {
         this.larareSettings[setting] = value;
         localStorage.larareSettings = JSON.stringify(this.larareSettings);
     };
