@@ -19,7 +19,11 @@ module.controller("registrationCtrl", function ($scope, $window, $location, regi
                     globalService.notify("Registrad!", "success");
                     //Flytta till startsidan
                     $location.path('/');
-                } else { //Okänt fel
+                } 
+                else if (status === 409) { //Redan registerad
+                    globalService.notify("Google mejlen är redan registrerad", "info");
+                } 
+                else { //Okänt fel
                     globalService.notify("Ett okänt fel inträffade vid registreringen, \n"
                             + "försök igen senare eller kontakta administratören. "
                             + "(" + status + ")", "danger");
